@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/mistertfy64/QuickAnswer/issues"
   },
-  "homepage": "https://github.com/mistertfy64/QuickAnswer#readme"
+  "homepage": "https://github.com/mistertfy64/QuickAnswer#readme",
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "mongoose": "^9.2.4",
+    "typescript": "^5.9.3"
+  }
 }
