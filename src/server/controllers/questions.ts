@@ -31,7 +31,7 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 
 const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const question = await Question.findById(req.params.id);
+		const question = await Question.findById(req.params.id).populate("answers");
 
 		if (!question) {
 			res.status(404).json({ success: false });
