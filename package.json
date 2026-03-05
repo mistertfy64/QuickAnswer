@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && npm run copyStaticFiles",
-    "copyStaticFiles": "copyfiles --up 1 \"src/**/*\" -e \"**/*.ts\" ./dist",
+    "copyStaticFiles": "copyfiles --up 1 \"src/**/*\" -e \"**/*.ts\" dist",
     "start-api": "node ./dist/server/index.js"
   },
   "repository": {
@@ -23,6 +23,7 @@
     "@dotenvx/dotenvx": "^1.52.0",
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
+    "copyfiles": "^2.4.1",
     "ejs": "^4.0.1",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
