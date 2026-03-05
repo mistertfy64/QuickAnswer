@@ -35,11 +35,13 @@ const getQuestions = async (
 	next: NextFunction,
 ) => {
 	try {
-		const questions = await Question.find({}).select({
-			title: 1,
-			createdAt: 1,
-			creator: 1,
-		});
+		const questions = await Question.find({})
+			.select({
+				title: 1,
+				createdAt: 1,
+				creator: 1,
+			})
+			.sort({ createdAt: -1 });
 
 		res.status(200).json({
 			success: true,
@@ -55,7 +57,13 @@ const getQuestions = async (
 
 const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const question = await Question.findById(req.params.id).populate("answers");
+		const question = await Question.findById(req.params.id).populate({
+			path: "answers",
+			options: {
+				sort: { createdAt: 1 },
+				select: { content: 1, createdAt: 1, creator: 1 },
+			},
+		});
 
 		if (!question) {
 			res.status(404).json({ success: false });
