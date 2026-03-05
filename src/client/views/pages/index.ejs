@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/head.ejs") %>
+  <link href="/css/index.css" rel="stylesheet">
+  <title>QuickAnswer</title>
+</head>
+
+<body>
+  <%- include("../partials/header.ejs") %>
+  <main>
+    <h1>Answer Questions</h1>
+    <section>
+      <% for (const question of data.questions) { %>
+      <%- include("../partials/question-preview.ejs", {question:question}) %>
+      <% } %>
+    </section>
+  </main>
+</body>
+
+</html>

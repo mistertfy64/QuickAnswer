@@ -1,0 +1,17 @@
+<header>
+  <div id="header">
+    <div>
+      <a href="/">Home</a>
+      |
+      <a href="/new">New Question</a>
+    </div>
+    <div>
+      <% if (!authenticationData.loggedIn) { %>
+      <a href="/login">Login</a>
+      <% } else { %>
+      <%= authenticationData.username %> | <a href="/logout">Logout</a>
+      <%}%>
+    </div>  
+  </div>
+  <hr>
+</header>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/head.ejs") %>
+  <link href="/css/question.css" rel="stylesheet">
+  <title>QuickAnswer</title>
+</head>
+
+<body>
+  <%- include("../partials/header.ejs") %>
+  <main>
+    <h1><%= data.question.title %></h1>
+    <h2>Asked by <%= data.question.creator %> on <%= data.question.createdAt %></h2>
+    <p>
+      <%= data.question.content %>
+    </p>
+    <hr>
+    <section>
+      <% for (const answer of data.question.answers) { %>
+      <%- include("../partials/question-answer.ejs", {answer:answer}) %>
+      <% } %>
+    </section>
+    <h2>Add a Response</h2>
+    <form action="/answers" method="POST">
+      <input name="answer" type="textarea" maxlength="2048">
+      <input name="question" type="hidden" value=<%= data.question._id%>>
+      <input type="submit">
+    </form>
+  </main>
+</body>
+
+</html>
