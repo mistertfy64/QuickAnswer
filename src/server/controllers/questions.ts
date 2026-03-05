@@ -17,6 +17,7 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 		});
 
 		res.status(200).json({
+			success: true,
 			questionID: question._id,
 		});
 	} catch (error: unknown) {
