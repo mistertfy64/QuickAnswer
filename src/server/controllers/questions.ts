@@ -13,7 +13,7 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 		const question = await Question.create({
 			title: title,
 			content: content,
-			askedBy: req.authentication.username,
+			creator: req.authentication.username,
 		});
 
 		res.status(200).json({
