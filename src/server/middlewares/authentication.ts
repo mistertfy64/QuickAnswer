@@ -12,7 +12,7 @@ async function restrictToAuthenticated(
 	const token = req.body["token"];
 
 	if (!username || !token) {
-		log.error(`Unauthenticated user tried to access restricted route.`);
+		log.warn(`Unauthenticated user tried to access restricted route.`);
 		res.status(401).json({ success: false });
 		return;
 	}
@@ -20,7 +20,7 @@ async function restrictToAuthenticated(
 	const user = await User.findOne({ username: username.toLowerCase() });
 
 	if (!user || !user.tokens) {
-		log.error(`Unauthenticated user tried to access restricted route.`);
+		log.warn(`Unauthenticated user tried to access restricted route.`);
 		res.status(401).json({ success: false });
 		return;
 	}
@@ -38,7 +38,7 @@ async function restrictToAuthenticated(
 	}
 
 	if (!tokenResult) {
-		log.error(`Unauthenticated user tried to access restricted route.`);
+		log.warn(`Unauthenticated user tried to access restricted route.`);
 		res.status(401).json({ success: false });
 		return;
 	}
