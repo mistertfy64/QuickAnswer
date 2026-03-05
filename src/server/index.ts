@@ -8,6 +8,7 @@ declare global {
 	namespace Express {
 		interface Request {
 			authentication: {
+				loggedIn: boolean;
 				username: string;
 				isAdministrator: boolean;
 			};
@@ -21,6 +22,7 @@ const answers = require("./routes/answers");
 
 const app = express();
 app.set("query parser", "extended");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
