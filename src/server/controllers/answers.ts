@@ -1,6 +1,7 @@
 import { Answer } from "../models/Answer";
 import { Request, Response, NextFunction } from "express";
 import log from "../utilities/log";
+import mongoose from "mongoose";
 
 const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -12,13 +13,12 @@ const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 
 		const answer = await Answer.create({
 			content: content,
-			question: question,
+			question: new mongoose.Types.ObjectId(question._id),
 			creator: req.authentication.username,
 		});
 
 		res.status(200).json({
 			success: true,
-			questionID: question._id,
 		});
 	} catch (error: unknown) {
 		res.status(400).json({ success: false });
