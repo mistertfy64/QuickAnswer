@@ -23,6 +23,10 @@ const QuestionSchema = new mongoose.Schema(
 			default: [],
 			ref: "Answer",
 		},
+		solved: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{
 		methods: {
