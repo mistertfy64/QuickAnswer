@@ -35,11 +35,30 @@ const getQuestions = async (
 	next: NextFunction,
 ) => {
 	try {
-		const questions = await Question.find({})
+		let solvedOnly = 0;
+		let limit = 100;
+
+		const filter: { [key: string]: number } = {};
+
+		if (req.query.solved) {
+			solvedOnly = Math.min(
+				1,
+				Math.max(0, parseInt(req.query.solved.toString(), 10)),
+			);
+			filter.solved = solvedOnly;
+		}
+
+		if (req.query.limit) {
+			limit = Math.min(100, parseInt(req.query.limit.toString(), 10));
+		}
+		filter.limit = limit;
+
+		const questions = await Question.find(filter)
 			.select({
 				title: 1,
 				createdAt: 1,
 				creator: 1,
+				limit: limit,
 			})
 			.sort({ createdAt: -1 });
 
@@ -82,4 +101,40 @@ const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export { addQuestion, getQuestion, getQuestions };
+const markQuestionAsSolved = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
+		const question = await Question.findById(req.params.id);
+
+		if (!question) {
+			res.status(404).json({ success: false });
+			return;
+		}
+
+		if (question.creator !== req.authentication.username) {
+			res.status(403).json({ success: false });
+			return;
+		}
+
+		// TODO: Inconsistent
+		question.solved = req.body.solved;
+		question.save();
+
+		log.info(`Marked question ${question._id} as solved`);
+
+		res.status(200).json({
+			success: true,
+			question: question,
+		});
+	} catch (error: unknown) {
+		res.status(400).json({ success: false });
+		if (error instanceof Error) {
+			log.error(error.stack);
+		}
+	}
+};
+
+export { addQuestion, getQuestion, getQuestions, markQuestionAsSolved };
