@@ -50,10 +50,13 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	const token = randomBytes(24).toString("hex");
 	await user.addToken(token);
 
-	sendTokenResponse(res, token);
+	sendTokenResponse(res, username.toLowerCase(), token);
 };
 
-function sendTokenResponse(res: Response, token: string) {
+function sendTokenResponse(res: Response, username: string, token: string) {
+	res.cookie("username", username, {
+		sameSite: "lax",
+	});
 	res.cookie("token", token, {
 		sameSite: "lax",
 	});
