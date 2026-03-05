@@ -8,6 +8,7 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 
 		if (!title || !content) {
 			res.status(400).json({ success: false });
+			return;
 		}
 
 		const question = await Question.create({
@@ -34,6 +35,7 @@ const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 
 		if (!question) {
 			res.status(404).json({ success: false });
+			return;
 		}
 
 		res.status(200).json({
