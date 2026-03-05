@@ -1,4 +1,9 @@
 <article class="question-preview">
-  <div class="question-title"><a href="/questions/<%= question._id %>"><%= question.title %></a></div>
+  <div class="question-title">
+    <% if (showSolvedTag) { %>
+    <strong class="color--solved">(Solved)</strong>
+    <% } %>
+    <a href="/questions/<%= question._id %>"><%= question.title %></a>
+  </div>
   <div class="question-asker">asked by <%= question.creator %> on <%= question.createdAt %></div>
 </article>
