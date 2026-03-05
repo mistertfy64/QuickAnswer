@@ -10,7 +10,7 @@ const AnswerSchema = new mongoose.Schema({
 		default: Date.now(),
 	},
 	question: {
-		type: String,
+		type: mongoose.Types.ObjectId,
 		required: true,
 	},
 	creator: {
