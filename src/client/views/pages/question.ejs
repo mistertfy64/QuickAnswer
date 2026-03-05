@@ -10,8 +10,16 @@
 <body>
   <%- include("../partials/header.ejs") %>
   <main>
+    <% if (data.question.solved) { %>
+    <strong>
+      <p class="color--solved">Solved</p>
+    </strong>
+    <% } %>
     <h1><%= data.question.title %></h1>
     <h2>Asked by <%= data.question.creator %> on <%= data.question.createdAt %></h2>
+    <% if (data.question.creator === authenticationData.username && !data.question?.solved) { %>
+    <a href="/questions/<%= data.question._id %>/solved">Mark as solved?</a>
+    <% } %>
     <p>
       <%= data.question.content %>
     </p>

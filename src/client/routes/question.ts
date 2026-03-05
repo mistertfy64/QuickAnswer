@@ -18,7 +18,23 @@ router.get("/questions/:id", checkAuthentication, async (req, res) => {
 	});
 });
 
-router.post("/question", checkAuthentication, async (req, res) => {
+router.get("/questions/:id/solved", checkAuthentication, async (req, res) => {
+	const fetchResponse = await fetch(
+		process.env.API_BASE_URL + `/api/questions/${req.params.id}`,
+		{
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				solved: true,
+				username: req.authentication.username,
+				token: req.cookies["token"],
+			}),
+		},
+	);
+	res.redirect(`/questions/${req.params.id}`);
+});
+
+router.post("/questions", checkAuthentication, async (req, res) => {
 	if (!req.authentication.loggedIn) {
 		res.redirect("/");
 	}
