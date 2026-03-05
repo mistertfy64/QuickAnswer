@@ -21,7 +21,7 @@
       <%- include("../partials/question-answer.ejs", {answer:answer}) %>
       <% } %>
     </section>
-    <% if (!authenticationData.loggedIn) { %>
+    <% if (authenticationData.loggedIn) { %>
     <h2>Add a Response</h2>
     <form action="/answers" method="POST">
       <input name="answer" type="textarea" maxlength="2048">
