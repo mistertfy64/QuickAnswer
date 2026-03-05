@@ -42,6 +42,8 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 		return res.status(400).json({ success: false, msg: "Invalid credentials" });
 	}
 
+	log.info(`User ${username} logged in.`);
+
 	const token = randomBytes(24).toString("hex");
 	await user.addToken(token);
 
