@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include("../partials/head.ejs") %>
+  <link href="/css/index.css" rel="stylesheet">
+  <title>QuickAnswer</title>
+</head>
+
+<body>
+  <%- include("../partials/header.ejs") %>
+  <main>
+    <h1>Ask a Question</h1>
+    <form action="/question" method="POST">
+      Title: <input type="text" name="title" maxlength="128">
+      <br>
+      <textarea name="content" maxlength="2048"></textarea>
+      <br>
+      <input type="submit">
+    </form>
+  </main>
+</body>
+
+</html>
