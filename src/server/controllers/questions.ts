@@ -29,6 +29,30 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
+const getQuestions = async (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	try {
+		const questions = await Question.find({}).select({
+			title: 1,
+			createdAt: 1,
+			creator: 1,
+		});
+
+		res.status(200).json({
+			success: true,
+			questions: questions,
+		});
+	} catch (error: unknown) {
+		res.status(400).json({ success: false });
+		if (error instanceof Error) {
+			log.error(error.stack);
+		}
+	}
+};
+
 const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const question = await Question.findById(req.params.id).populate("answers");
@@ -50,4 +74,4 @@ const getQuestion = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
-export { addQuestion, getQuestion };
+export { addQuestion, getQuestion, getQuestions };
