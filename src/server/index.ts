@@ -37,7 +37,7 @@ app.use(`/api/authentication`, authentication);
 app.use(`/api/questions`, questions);
 app.use(`/api/answers`, answers);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.BACKEND_PORT || 5000;
 
 const server = app.listen(
 	PORT,
