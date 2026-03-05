@@ -1,21 +1,28 @@
 import { User } from "../models/User";
+import { Request, Response, NextFunction } from "express";
 import { sha256 } from "../utilities/sha256";
+import log from "../utilities/log";
 
-async function isAuthenticated(username: string, token: string) {
-	const NOT_GOOD = {
-		ok: false,
-		username: null,
-		isAdministrator: false,
-	};
+async function restrictToAuthenticated(
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) {
+	const username = req.cookies["username"];
+	const token = req.cookies["token"];
 
 	if (!username || !token) {
-		return NOT_GOOD;
+		log.error(`Unauthenticated user tried to access restricted route.`);
+		res.status(401).json({ success: false });
+		return;
 	}
 
 	const user = await User.findOne({ username: username.toLowerCase() });
 
 	if (!user || !user.tokens) {
-		return NOT_GOOD;
+		log.error(`Unauthenticated user tried to access restricted route.`);
+		res.status(401).json({ success: false });
+		return;
 	}
 
 	let tokenResult = false;
@@ -31,14 +38,16 @@ async function isAuthenticated(username: string, token: string) {
 	}
 
 	if (!tokenResult) {
-		return NOT_GOOD;
+		log.error(`Unauthenticated user tried to access restricted route.`);
+		res.status(401).json({ success: false });
+		return;
 	}
 
-	return {
-		ok: true,
-		username: user.username,
+	req.authentication = {
+		username: username.toLowerCase(),
 		isAdministrator: user.isAdministrator ?? false,
 	};
+	next();
 }
 
-export { isAuthenticated };
+export { restrictToAuthenticated };
