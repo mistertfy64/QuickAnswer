@@ -12,10 +12,18 @@
   <main>
     <h1>Answer Questions</h1>
     <section>
-      <% for (const question of data.questions) { %>
-      <%- include("../partials/question-preview.ejs", {question:question}) %>
+      <% for (const question of data.unsolvedQuestions) { %>
+      <%- include("../partials/question-preview.ejs", {question:question, showSolvedTag: false}) %>
       <% } %>
     </section>
+    <hr>
+    <h2>Solved Questions</h2>
+    <section>
+      <% for (const question of data.solvedQuestions) { %>
+      <%- include("../partials/question-preview.ejs", {question:question, showSolvedTag: true}) %>
+      <% } %>
+    </section>
+    <hr>
   </main>
 </body>
 
