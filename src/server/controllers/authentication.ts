@@ -53,6 +53,12 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	sendTokenResponse(res, username.toLowerCase(), token);
 };
 
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+	res.clearCookie("username");
+	res.clearCookie("token");
+	res.status(200).json({ success: true });
+};
+
 function sendTokenResponse(res: Response, username: string, token: string) {
 	res.cookie("username", username, {
 		sameSite: "lax",
@@ -63,4 +69,4 @@ function sendTokenResponse(res: Response, username: string, token: string) {
 	res.status(200).json({ success: true });
 }
 
-export { register, login };
+export { register, login, logout };
