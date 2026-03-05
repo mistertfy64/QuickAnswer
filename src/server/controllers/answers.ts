@@ -14,11 +14,11 @@ const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 
 		const answer = await Answer.create({
 			content: content,
-			question: new mongoose.Types.ObjectId(question._id),
+			question: new mongoose.Types.ObjectId(question),
 			creator: req.authentication.username,
 		});
 
-		const targetQuestion = await Question.findById(question._id);
+		const targetQuestion = await Question.findById(question);
 
 		if (!targetQuestion) {
 			res.status(400).json({ success: false });
@@ -27,7 +27,7 @@ const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 
 		targetQuestion.addAnswer(answer._id);
 
-		log.info(`Added answer to question with ID ${question._id}`);
+		log.info(`Added answer to question with ID ${question}`);
 
 		res.status(200).json({
 			success: true,
