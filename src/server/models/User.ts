@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
 			default: Date.now(),
 		},
 		tokens: {
-			type: Array<String>,
+			type: Array,
 			default: [],
 		},
 		isAdministrator: {
