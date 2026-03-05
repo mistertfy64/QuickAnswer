@@ -27,6 +27,8 @@ const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 
 		targetQuestion.addAnswer(answer._id);
 
+		log.info(`Added answer to question with ID ${question._id}`);
+
 		res.status(200).json({
 			success: true,
 		});
