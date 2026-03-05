@@ -20,6 +20,11 @@ const UserSchema = new mongoose.Schema(
 		},
 		tokens: {
 			type: Array<String>,
+			default: [],
+		},
+		isAdministrator: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	{
