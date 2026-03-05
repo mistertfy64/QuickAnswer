@@ -2,6 +2,7 @@ import { User } from "../models/User";
 import { Request, Response, NextFunction } from "express";
 import log from "../utilities/log";
 import { randomBytes } from "crypto";
+import { sha256 } from "../utilities/sha256";
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -59,14 +60,60 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
 	res.status(200).json({ success: true });
 };
 
+const me = async (req: Request, res: Response, next: NextFunction) => {
+	const username = req.cookies["username"];
+	const token = req.cookies["token"];
+
+	if (!username || !token) {
+		res.status(200).json({
+			success: true,
+			authenticated: false,
+			username: null,
+		});
+		return;
+	}
+
+	const user = await User.findOne({ username: username.toLowerCase() });
+
+	const hashed = sha256(token);
+
+	if (!user) {
+		res.status(200).json({
+			success: true,
+			authenticated: false,
+			username: null,
+		});
+		return;
+	}
+
+	let tokenResult = false;
+	const tokens = user.tokens;
+
+	for (const userToken of tokens) {
+		if (hashed === userToken) {
+			tokenResult = true;
+			break;
+		}
+	}
+
+	if (!tokenResult) {
+		res.status(200).json({
+			success: true,
+			authenticated: false,
+			username: null,
+		});
+		return;
+	}
+
+	res.status(200).json({
+		success: true,
+		authenticated: true,
+		username: user.username,
+	});
+};
+
 function sendTokenResponse(res: Response, username: string, token: string) {
-	res.cookie("username", username, {
-		sameSite: "lax",
-	});
-	res.cookie("token", token, {
-		sameSite: "lax",
-	});
-	res.status(200).json({ success: true });
+	res.status(200).json({ success: true, username: username, token: token });
 }
 
-export { register, login, logout };
+export { register, login, logout, me };
