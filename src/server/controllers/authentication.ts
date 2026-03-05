@@ -5,9 +5,10 @@ import { randomBytes } from "crypto";
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { username, password } = req.body;
+		let { username, password } = req.body;
+
 		const user = await User.create({
-			username,
+			username: username.toLowerCase(),
 			password,
 		});
 		log.info(`Added new user with username ${user.username}.`);
@@ -26,11 +27,13 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 	if (!username || !password) {
 		return res.status(400).json({
 			success: false,
-			msg: "Email or password missing.",
+			msg: "Username or password missing.",
 		});
 	}
 
-	const user = await User.findOne({ email: username }).select("+password");
+	const user = await User.findOne({ username: username.toLowerCase() }).select(
+		"+password",
+	);
 
 	if (!user) {
 		return res.status(400).json({ success: false, msg: "Invalid credentials" });
