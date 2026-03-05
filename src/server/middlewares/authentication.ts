@@ -8,8 +8,9 @@ async function restrictToAuthenticated(
 	res: Response,
 	next: NextFunction,
 ) {
-	const username = req.body["username"];
-	const token = req.body["token"];
+	// TODO: ???
+	const username = req.body["username"] ?? req.cookies["username"];
+	const token = req.body["token"] ?? req.cookies["token"];
 
 	if (!username || !token) {
 		log.warn(`Unauthenticated user tried to access restricted route.`);
