@@ -18,3 +18,7 @@ p {
 	display: flex;
 	justify-content: space-between;
 }
+
+.color--solved {
+	color: #319131;
+}
