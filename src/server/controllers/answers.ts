@@ -2,6 +2,7 @@ import { Answer } from "../models/Answer";
 import { Request, Response, NextFunction } from "express";
 import log from "../utilities/log";
 import mongoose from "mongoose";
+import { Question } from "../models/Question";
 
 const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -16,6 +17,15 @@ const addAnswer = async (req: Request, res: Response, next: NextFunction) => {
 			question: new mongoose.Types.ObjectId(question._id),
 			creator: req.authentication.username,
 		});
+
+		const targetQuestion = await Question.findById(question._id);
+
+		if (!targetQuestion) {
+			res.status(400).json({ success: false });
+			return;
+		}
+
+		targetQuestion.addAnswer(answer._id);
 
 		res.status(200).json({
 			success: true,
