@@ -15,6 +15,7 @@ const addQuestion = async (req: Request, res: Response, next: NextFunction) => {
 			title: title,
 			content: content,
 			creator: req.authentication.username,
+			createdAt: Date.now(),
 		});
 
 		res.status(200).json({
